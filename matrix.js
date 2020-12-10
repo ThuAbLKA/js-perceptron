@@ -35,9 +35,14 @@ class Matrix {
 
 	multiply(n) {		
 		if (n instanceof Matrix) {
-			console.error('WRNGFUNC: This function is for scalar multiplication');
-			return null;		
+			// hadamard product
+			for (let i = 0; i < this.rows; i++) {
+				for (let j = 0; j < this.cols; j++) {
+					this.data[i][j] *= n[i][j];
+				}
+			}		
 		} else {
+			// scalar product
 			for (let i = 0; i < this.rows; i++) {
 				for (let j = 0; j < this.cols; j++) {
 					this.data[i][j] *= n;
@@ -167,6 +172,18 @@ class Matrix {
 			return null;
 		}
 
+	}
+
+	map(m, fn) {
+		let res = new Matrix(m.rows, m.cols);
+		for (let i = 0; i < m.rows; i++ ) {
+			for (let j= 0; j < m.cols; j++) {
+				let val = m.data[i][j];
+				res.data[i][j] = fn(val);
+			}
+		}
+
+		return res;
 	}
 
 	static multiply(a,b) {
